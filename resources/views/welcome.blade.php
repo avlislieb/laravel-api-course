@@ -93,8 +93,22 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <a onclick="sendAjax()" href="javascript:void(0)">enviar</a>
                 </div>
             </div>
         </div>
+        <button>Enviar</button>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            function sendAjax() {
+                axios.get('http://webservice.dev.br/api/v1/products')
+                    .then(response => {
+                        console.log('success', response);
+                    })
+                    .catch(response => {
+                        console.log('error', response);
+                    });
+            }
+        </script>
     </body>
 </html>
