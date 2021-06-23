@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Category;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class CategoryController extends Controller
 {
 
-    private $category;
+    private $category, $totalPage = 10;
 
     public function __construct(Category $category)
     {
@@ -66,5 +66,19 @@ class CategoryController extends Controller
             return response()->json(['message' => "Category not found"], 404);
         }
         return response()->json($category);
+    }
+
+    public function products($id)
+    {
+        $category = $this->category->find($id);
+        if (!$category) {
+            return response()->json(['message' => "Category not found"], 404);
+        }
+
+        $products = $category->products()->paginate($this->totalPage);
+        return response()->json([
+            'category' => $category,
+            'products' => $products,
+        ]);
     }
 }
